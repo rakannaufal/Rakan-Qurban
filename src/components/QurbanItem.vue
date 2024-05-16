@@ -3,11 +3,11 @@
     <td>{{ index + 1 }}</td>
     <td>
       <span v-if="!isEditing">{{ Peserta.nama }}</span>
-      <input v-else v-model="Peserta.nama" />
+      <input v-else v-model="editedPeserta.nama" />
     </td>
     <td>
       <span v-if="!isEditing">{{ Peserta.jenisHewan }}</span>
-      <select v-else v-model="Peserta.jenisHewan">
+      <select v-else v-model="editedPeserta.jenisHewan">
         <option value="Sapi">Sapi</option>
         <option value="Kerbau">Kerbau</option>
         <option value="Kambing">Kambing</option>
@@ -20,42 +20,32 @@
     </td>
   </tr>
 </template>
-<script>
+
+<script setup>
 import { ref, defineProps, defineEmits } from "vue";
 
-export default {
-  props: {
-    Peserta: Object,
-    index: Number,
-  },
-  setup(props) {
-    const isEditing = ref(false);
-    const editedPeserta = ref({ ...props.Peserta });
+const props = defineProps({
+  Peserta: Object,
+  index: Number,
+});
 
-    const startEditing = () => {
-      isEditing.value = true;
-    };
+const isEditing = ref(false);
+const editedPeserta = ref({ ...props.Peserta });
 
-    const saveEdit = () => {
-      isEditing.value = false;
-      emit("edit-Peserta", props.index, editedPeserta.value);
-    };
-
-    const removePeserta = () => {
-      emit("remove-Peserta", props.index);
-    };
-
-    const emit = defineEmits(["edit-Peserta", "remove-Peserta"]);
-
-    return {
-      isEditing,
-      editedPeserta,
-      startEditing,
-      saveEdit,
-      removePeserta,
-    };
-  },
+const startEditing = () => {
+  isEditing.value = true;
 };
+
+const saveEdit = () => {
+  isEditing.value = false;
+  emit("edit-Peserta", editedPeserta.value);
+};
+
+const removePeserta = () => {
+  emit("remove-Peserta");
+};
+
+const emit = defineEmits(["edit-Peserta", "remove-Peserta"]);
 </script>
 
 <style scoped>

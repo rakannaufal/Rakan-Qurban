@@ -17,48 +17,32 @@
           :key="index"
           :Peserta="Peserta"
           :index="index"
-          @edit-Peserta="editPeserta(index, $event)"
-          @remove-Peserta="removePeserta"
+          @edit-Peserta="editedPeserta(index, $event)"
+          @remove-Peserta="removePeserta(index)"
         />
       </tbody>
     </table>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import SlotCom from "./TitleSlot.vue";
 import QurbanInput from "./QurbanInput.vue";
 import QurbanItem from "./QurbanItem.vue";
 
-export default {
-  components: {
-    QurbanInput,
-    QurbanItem,
-    SlotCom,
-  },
-  setup() {
-    const Pesertas = ref([]);
+const Pesertas = ref([]);
 
-    const addPeserta = (Peserta) => {
-      Pesertas.value.push(Peserta);
-    };
+const addPeserta = (Peserta) => {
+  Pesertas.value.push(Peserta);
+};
 
-    const removePeserta = (index) => {
-      Pesertas.value.splice(index, 1);
-    };
+const removePeserta = (index) => {
+  Pesertas.value.splice(index, 1);
+};
 
-    const editPeserta = (index, updatedPeserta) => {
-      Pesertas.value[index] = updatedPeserta;
-    };
-
-    return {
-      Pesertas,
-      addPeserta,
-      removePeserta,
-      editPeserta,
-    };
-  },
+const editedPeserta = (index, updatedPeserta) => {
+  Pesertas.value[index] = updatedPeserta;
 };
 </script>
 
